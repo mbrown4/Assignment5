@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Icon Events</title>
+<style>
+    #icons span img {
+        height: 100px;
+        margin: 5px;
+    }
+    #enlargedIcon {
+        display: none;
+        position: absolute;
+        z-index: 9999;
+    }
+</style>
+</head>
+<body>
+
+<span id="icons">
+    <img src="facebook_icon.png" alt="Facebook" data-website="https://www.facebook.com">
+    <img src="twitter_icon.png" alt="Twitter" data-website="https://www.twitter.com">
+    <img src="instagram_icon.png" alt="Instagram" data-website="https://www.instagram.com">
+    <img src="linkedin_icon.png" alt="LinkedIn" data-website="https://www.linkedin.com">
+    <img src="youtube_icon.png" alt="YouTube" data-website="https://www.youtube.com">
+    <img src="reddit_icon.png" alt="Reddit" data-website="https://www.reddit.com">
+</span>
+
+<div id="texts">
+    <p id="inText">In: </p>
+    <p id="outText">Out: </p>
+    <p id="mouseText">Mouse X: , Y: </p>
+</div>
+
+<img src="#" id="enlargedIcon">
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Mouse events for each icon
+        $('#icons img').on({
+            mouseenter: function() {
+                var iconAlt = $(this).attr('alt');
+                $('#inText').text('In: ' + iconAlt);
+                $(this).css('opacity', '0.5');
+            },
+            mouseleave: function() {
+                var iconAlt = $(this).attr('alt');
+                $('#outText').text('Out: ' + iconAlt);
+                $(this).css('opacity', '1.0');
+            },
+            dblclick: function() {
+                var website = $(this).data('website');
+                window.open(website, '_blank');
+            },
+            click: function(event) {
+                var posX = event.pageX;
+                var posY = event.pageY;
+                var iconSrc = $(this).attr('src');
+                $('#enlargedIcon').attr('src', iconSrc).css({top: posY, left: posX}).fadeIn();
+            }
+        });
+
+        // Mousemove event for the span element
+        $('#icons').on('mousemove', function(event) {
+            $('#mouseText').text('Mouse X: ' + event.pageX + ', Y: ' + event.pageY);
+        });
+    });
+</script>
+</body>
+</html>
